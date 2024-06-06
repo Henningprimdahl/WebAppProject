@@ -10,7 +10,6 @@ def get_db_connection():
     return conn
 
 def is_valid_title(title):
-    # Allow only alphanumeric characters and spaces
     pattern = re.compile(r'^[a-zA-Z0-9 ]+$')
     return pattern.match(title) is not None
 
@@ -28,6 +27,7 @@ def search():
         genre_query = request.form.get('genre')
         rating_query = request.form.get('rating')
         year_query = request.form.get('year')
+        runtime_query = request.form.get('runtime')
         director_query = request.form.get('director')
         star_query = request.form.get('star')
         
@@ -48,6 +48,9 @@ def search():
         if year_query:
             query += " AND year = ?"
             params.append(year_query)
+        if runtime_query:
+            query += " AND runtime <= ?"
+            params.append(runtime_query)
         if director_query:
             query += " AND director LIKE ?"
             params.append(f"%{director_query}%")
@@ -57,7 +60,7 @@ def search():
         
         movies = conn.execute(query, params).fetchall()
         conn.close()
-        return render_template('index.html', movies=movies, title_query=title_query, genre_query=genre_query, rating_query=rating_query, year_query=year_query, director_query=director_query, star_query=star_query)
+        return render_template('index.html', movies=movies, title_query=title_query, genre_query=genre_query, rating_query=rating_query, year_query=year_query, runtime_query=runtime_query, director_query=director_query, star_query=star_query)
     
     return redirect(url_for('index'))
 
