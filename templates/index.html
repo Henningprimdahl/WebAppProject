@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Movies</title>
+  </head>
+  <body>
+    <h1>Movies</h1>
+    <form action="/search" method="post">
+      <input type="text" name="title" placeholder="Search by title" value="{{ title_query }}">
+      <input type="text" name="genre" placeholder="Search by genre" value="{{ genre_query }}">
+      <input type="number" step="0.1" name="rating" placeholder="Search by rating" value="{{ rating_query }}">
+      <input type="number" name="year" placeholder="Search by year" value="{{ year_query }}">
+      <input type="text" name="director" placeholder="Search by director" value="{{ director_query }}">
+      <input type="text" name="star" placeholder="Search by star" value="{{ star_query }}">
+      <input type="submit" value="Search">
+    </form>
+    <a href="/add">Add a new movie</a>
+    <ul>
+      {% for movie in movies %}
+        <li>
+          {{ movie.title }} ({{ movie.year }}) - Rating: {{ movie.rating }}
+          <a href="/{{ movie.id }}/edit">Edit</a>
+          <form action="/{{ movie.id }}/delete" method="post" style="display:inline;">
+            <input type="submit" value="Delete">
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Add Movie</title>
+  </head>
+  <body>
+    <h1>Add a new movie</h1>
+    <form action="/add" method="post">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title"><br>
+      <label for="genre">Genre:</label>
+      <input type="text" id="genre" name="genre"><br>
+      <label for="director">Director:</label>
+      <input type="text" id="director" name="director"><br>
+      <label for="actors">Actors:</label>
+      <input type="text" id="actors" name="actors"><br>
+      <label for="year">Year:</label>
+      <input type="number" id="year" name="year"><br>
+      <label for="runtime">Runtime (Minutes):</label>
+      <input type="number" id="runtime" name="runtime"><br>
+      <label for="rating">IMDB Rating:</label>
+      <input type="number" step="0.1" id="rating" name="rating"><br>
+      <label for="votes">Votes:</label>
+      <input type="number" id="votes" name="votes"><br>
+      <label for="overview">Overview:</label>
+      <textarea id="overview" name="overview"></textarea><br>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>
