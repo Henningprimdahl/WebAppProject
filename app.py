@@ -16,7 +16,7 @@ def is_valid_title(title):
 @app.route('/')
 def index():
     conn = get_db_connection()
-    movies = conn.execute('SELECT * FROM movies').fetchall()
+    movies = conn.execute('SELECT * FROM movies ORDER BY rating DESC').fetchall()
     conn.close()
     return render_template('index.html', movies=movies)
 
@@ -27,7 +27,6 @@ def search():
         genre_query = request.form.get('genre')
         rating_query = request.form.get('rating')
         year_query = request.form.get('year')
-        runtime_query = request.form.get('runtime')
         director_query = request.form.get('director')
         star_query = request.form.get('star')
         
@@ -48,9 +47,6 @@ def search():
         if year_query:
             query += " AND year = ?"
             params.append(year_query)
-        if runtime_query:
-            query += " AND runtime <= ?"
-            params.append(runtime_query)
         if director_query:
             query += " AND director LIKE ?"
             params.append(f"%{director_query}%")
@@ -58,11 +54,14 @@ def search():
             query += " AND actors LIKE ?"
             params.append(f"%{star_query}%")
         
+        query += " ORDER BY rating DESC"
+        
         movies = conn.execute(query, params).fetchall()
         conn.close()
-        return render_template('index.html', movies=movies, title_query=title_query, genre_query=genre_query, rating_query=rating_query, year_query=year_query, runtime_query=runtime_query, director_query=director_query, star_query=star_query)
+        return render_template('index.html', movies=movies, title_query=title_query, genre_query=genre_query, rating_query=rating_query, year_query=year_query, director_query=director_query, star_query=star_query)
     
     return redirect(url_for('index'))
+
 
 @app.route('/add', methods=('GET', 'POST'))
 def add():
